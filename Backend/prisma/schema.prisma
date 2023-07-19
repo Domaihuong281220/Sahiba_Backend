@@ -3,155 +3,156 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = "mysql://root:Mh.6627262@localhost:3306/QLSP"
+  provider = "postgresql"
+  url      = "postgresql://postgres:Nguyenvantay111@@103.157.218.126:5432/qlsp"
 }
 
-// model User {
-//   id    Int     @id @default(autoincrement())
-//   email String  @unique
-//   name  String?
-//   posts Post[]
-// }
-
-// model Post {
-//   id        Int      @id @default(autoincrement())
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-//   title     String
-//   content   String?
-//   published Boolean  @default(false)
-//   viewCount Int      @default(0)
-//   author    User?    @relation(fields: [authorId], references: [id])
-//   authorId  Int?
-// }
-
 model Product {
-  id    Int     @id @default(autoincrement())
-  name  String?
-  price Int?
+  id          Int           @id @default(autoincrement())
+  name        String?
+  price       Int?
   description String?
-  image String?
-  category Category? @relation(fields: [categoryId], references: [id])
-  categoryId Int?
-  warehouse Warehouse[]
-  order Order[]
+  image       String?
+  categoryId  Int?
+  order       Order[]
+  category    Category?     @relation(fields: [categoryId], references: [id])
+  warehouse   Warehouse[]
   transaction transaction[]
+
+  //  @@([categoryId], map: "Product_categoryId_fkey")
 }
 
 model Warehouse {
-  id    Int     @id @default(autoincrement())
-  name  String?
-  price Int?
+  id          Int      @id @default(autoincrement())
+  name        String?
+  price       Int?
   description String?
-  image String?
-  quantity Int?
-  product Product? @relation(fields: [productId], references: [id])
-  productId Int?
+  image       String?
+  quantity    Int?
+  productId   Int?
+  product     Product? @relation(fields: [productId], references: [id])
+
+  // @@index([productId], map: "Warehouse_productId_fkey")
 }
 
 model Category {
-  id    Int     @id @default(autoincrement())
-  name  String?
+  id       Int       @id @default(autoincrement())
+  name     String?
   products Product[]
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  name  String?
-  email String?
-  password String?
-  role String?
-  avatar String?
-  address String?
-  phone String?
-  cart Cart[]
-  order Order[]
+  id          Int           @id @default(autoincrement())
+  name        String?
+  email       String?
+  password    String?
+  role        String?
+  avatar      String?
+  address     String?
+  phone       String?
+  cart        Cart[]
+  comment     Comment[]
+  order       Order[]
   orderDetail OrderDetail[]
-  comment Comment[]
-  rating Rating[]
-  payment Payment[]
+  payment     Payment[]
+  rating      Rating[]
   transaction transaction[]
-
 }
 
 model Cart {
-  id    Int     @id @default(autoincrement())
-  name  String?
-  price Int?
+  id          Int     @id @default(autoincrement())
+  name        String?
+  price       Int?
   description String?
-  image String?
-  quantity Int?
-  user User? @relation(fields: [userId], references: [id])
-  userId Int?
+  image       String?
+  quantity    Int?
+  userId      Int?
+  user        User?   @relation(fields: [userId], references: [id])
+
+  // @@index([userId], map: "Cart_userId_fkey")
 }
 
 model Order {
-  id    Int     @id @default(autoincrement())
-  product Product? @relation(fields: [productId], references: [id])
-  productId Int?
-  user User? @relation(fields: [userId], references: [id])
-  userId Int?
+  id          Int           @id @default(autoincrement())
+  productId   Int?
+  userId      Int?
+  quantity    Int?
+  product     Product?      @relation(fields: [productId], references: [id])
+  user        User?         @relation(fields: [userId], references: [id])
   orderDetail OrderDetail[]
-  quantity Int?
+
+  // @@index([productId], map: "Order_productId_fkey")
+  // @@index([userId], map: "Order_userId_fkey")
 }
 
 model OrderDetail {
-  id    Int     @id @default(autoincrement())
-  name  String?
-  price Int?
+  id          Int     @id @default(autoincrement())
+  name        String?
+  price       Int?
   description String?
-  image String?
-  quantity Int?
-  user User? @relation(fields: [userId], references: [id])
-  userId Int?
-  order Order? @relation(fields: [orderId], references: [id])
-  orderId Int?
+  image       String?
+  quantity    Int?
+  userId      Int?
+  orderId     Int?
+  order       Order?  @relation(fields: [orderId], references: [id])
+  user        User?   @relation(fields: [userId], references: [id])
+
+  // @@index([orderId], map: "OrderDetail_orderId_fkey")
+  // @@index([userId], map: "OrderDetail_userId_fkey")
 }
 
 model Comment {
-  id    Int     @id @default(autoincrement())
-  name  String?
-  price Int?
+  id          Int     @id @default(autoincrement())
+  name        String?
+  price       Int?
   description String?
-  image String?
-  quantity Int?
-  user User? @relation(fields: [userId], references: [id])
-  userId Int?
+  image       String?
+  quantity    Int?
+  userId      Int?
+  user        User?   @relation(fields: [userId], references: [id])
+
+  // @@index([userId], map: "Comment_userId_fkey")
 }
 
 model Rating {
-  id    Int     @id @default(autoincrement())
-  name  String?
-  price Int?
+  id          Int     @id @default(autoincrement())
+  name        String?
+  price       Int?
   description String?
-  image String?
-  quantity Int?
-  user User? @relation(fields: [userId], references: [id])
-  userId Int?
+  image       String?
+  quantity    Int?
+  userId      Int?
+  user        User?   @relation(fields: [userId], references: [id])
+
+  // @@index([userId], map: "Rating_userId_fkey")
 }
 
 model Payment {
-  id    Int     @id @default(autoincrement())
-  name  String?
-  price Int?
+  id          Int     @id @default(autoincrement())
+  name        String?
+  price       Int?
   description String?
-  image String?
-  quantity Int?
-  user User? @relation(fields: [userId], references: [id])
-  userId Int?
+  image       String?
+  quantity    Int?
+  userId      Int?
+  user        User?   @relation(fields: [userId], references: [id])
+
+  // @@index([userId], map: "Payment_userId_fkey")
 }
 
 model transaction {
-  id    Int     @id @default(autoincrement())
-  name  String?
-  price Int?
+  id          Int      @id @default(autoincrement())
+  name        String?
+  price       Int?
   description String?
-  image String?
-  quantity Int?
-  user User? @relation(fields: [userId], references: [id])
-  userId Int?
-  product Product? @relation(fields: [productId], references: [id])
-  productId Int?
-  total Int?
+  image       String?
+  quantity    Int?
+  userId      Int?
+  productId   Int?
+  total       Int?
+  product     Product? @relation(fields: [productId], references: [id])
+  user        User?    @relation(fields: [userId], references: [id])
+
+  // @@index([productId], map: "transaction_productId_fkey")
+  // @@index([userId], map: "transaction_userId_fkey")
 }

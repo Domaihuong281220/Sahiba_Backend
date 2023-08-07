@@ -2,11 +2,15 @@
 
 import { Prisma, PrismaClient } from "@prisma/client";
 import express from "express";
-
 const prisma = new PrismaClient();
 const app = express();
-
 app.use(express.json());
+app.use(function (req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
 
 // app.post(`/signup`, async (req, res) => {
 //   const { name, email, posts } = req.body
@@ -143,13 +147,13 @@ app.use(express.json());
 // })
 
 //#region   API USER
-app.get("/users", async (req, res) => {
+app.get("/getallUser", async (req, res) => {
   const users = await prisma.user.findMany();
   res.json(users);
   console.log(users);
 });
 app.post(`/adduser`, async (req, res) => {
-  const { id, name, email, password, avatar, address, phone } = req.body;
+  const { id, name, email, password, avatar, address, phone, role } = req.body;
   const result = await prisma.user.create({
     data: {
       id,
@@ -159,6 +163,7 @@ app.post(`/adduser`, async (req, res) => {
       avatar,
       address,
       phone,
+      role,
     },
   });
   res.json(result);
@@ -202,15 +207,16 @@ app.delete("/deleteuser/:id", async (req, res) => {
   });
   res.json(user);
 });
+
 //#endregion
 //#region  API Product
-app.get("/products", async (req, res) => {
+app.get("/getallproduct", async (req, res) => {
   const products = await prisma.product.findMany();
   res.json(products);
   console.log(products);
 });
 
-app.post(`/addproducts`, async (req, res) => {
+app.post(`/addproduct`, async (req, res) => {
   const { id, name, price, description, image } = req.body;
   const result = await prisma.product.create({
     data: {
@@ -289,7 +295,7 @@ app.delete("/deletecart/:id", async (req, res) => {
 //#endregion
 
 //#region API Categories
-app.get("/categories", async (req, res) => {
+app.get("/getallcategory", async (req, res) => {
   const categories = await prisma.category.findMany();
   res.json(categories);
 });

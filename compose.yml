@@ -1,0 +1,46 @@
+# docker-compose postgre, prisma, express from docker file
+version: '3.7'
+
+services:
+  # Postgres service
+  postgres:
+    container_name: postgres
+    image: postgres:11.5-alpine
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Nguyenvantay111
+      - POSTGRES_DB=qlsp
+    volumes:
+      - sahiba:/var/lib/postgresql/data
+    networks:
+      - sahiba
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Express service
+  express:
+    container_name: express
+    build: ./Backend
+    ports:
+      - 8000:8000
+    environment:
+      - DATABASE_URL=postgresql://postgres:Nguyenvantay111@postgres:5432/qlsp
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./Backend:/app
+    networks:
+      - sahiba
+
+networks:
+  sahiba:
+    driver: bridge
+
+volumes:
+  sahiba:

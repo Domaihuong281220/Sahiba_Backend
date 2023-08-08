@@ -1,0 +1,18 @@
+.imgErr {
+   height: 100%;
+   width: 100%;
+   object-fit: fill;
+}
+fieldset {
+   background-color: #eeeeee;
+ }
+ 
+ legend {
+   background-color: gray;
+   color: white;
+   padding: 5px 10px;
+ }
+ 
+ input {
+   margin: 5px;
+ }

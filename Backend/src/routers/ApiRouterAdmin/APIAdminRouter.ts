@@ -3,6 +3,7 @@
 import { Router } from "express";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { getallUser } from "../../controllers/homeController";
+
 const prisma = new PrismaClient();
 
 export const AdminRouter = Router();
@@ -33,6 +34,7 @@ AdminRouter.post("/adduser", async (req, res) => {
   });
   res.json(result);
 });
+
 AdminRouter.get("/user/:id/drafts", async (req, res) => {
   const { id } = req.params;
 

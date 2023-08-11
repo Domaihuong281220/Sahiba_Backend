@@ -3,9 +3,10 @@
 import { Router } from "express";
 import { Prisma, PrismaClient } from "@prisma/client";
 import {
+  UpdateCart,
   getAllProduct,
   getallcategory,
-} from "../../controllers/homeController";
+} from "../../controllers/UserController";
 const prisma = new PrismaClient();
 
 export const PublicRouter = Router();
@@ -19,10 +20,8 @@ PublicRouter.get("/getallproduct", getAllProduct);
 // Get all category
 PublicRouter.get("/getallcategory", getallcategory);
 
-
-
-
-
+//#region API Cart
+PublicRouter.put("/updatecart/:id", UpdateCart);
 //#region  API Cart
 PublicRouter.post(`/addtocart`, async (req, res) => {
   const { id, name, price, description, image, userId } = req.body;

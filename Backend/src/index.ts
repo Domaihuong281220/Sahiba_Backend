@@ -1,14 +1,15 @@
 /** @format */
 
 import { Prisma, PrismaClient } from "@prisma/client";
-import express from "express";
+import express, { application } from "express";
 const prisma = new PrismaClient();
 import configViewEngine from "./config/viewEngine";
 import configFileStatic from "./config/fileStatic";
 import configcordHeader from "./config/cordHeader";
 import configRouter from "./config/routerConfig";
-var app = express();
 
+
+var app = express();
 // Config body parser
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -21,7 +22,6 @@ configFileStatic(app);
 configcordHeader(app);
 //config routers
 configRouter(app);
-
 async function main() {}
 main()
   .then(async () => {
@@ -30,7 +30,6 @@ main()
   .catch(async (e) => {
     console.error(e);
     await prisma.$disconnect();
-    process.exit(1);
   });
 
 const server = app.listen(8000, () =>

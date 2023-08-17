@@ -1,7 +1,10 @@
 /** @format */
 import { Prisma, PrismaClient } from "@prisma/client";
+import { json } from "body-parser";
 import { error } from "console";
 import { Response } from "express";
+import multer from "multer";
+
 const prisma = new PrismaClient();
 
 // get all product
@@ -38,4 +41,15 @@ export const UpdateCart = async (req: any, res: any) => {
     },
   });
   res.json(cart);
+};
+
+export let getUploadFilePage = async (req: any, res: Response) => {
+  return res.render("uploadfile.ejs");
+};
+
+export let handleUploadFile = async (req: any, res: any) => {
+  // console.log(req.file);
+  
+
+  // Display uploaded image for user validation
 };

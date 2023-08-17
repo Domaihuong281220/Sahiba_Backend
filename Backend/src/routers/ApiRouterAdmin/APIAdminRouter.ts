@@ -22,7 +22,9 @@ export const AdminRouter = Router();
 AdminRouter.get("/", (req, res) => {
   res.send("Wellcome SAHIBA Admin");
 });
-
+AdminRouter.post('/upload',(req, res)=>{
+  return 'upload.ejs'
+})
 //#region   API USER
 // get all user
 

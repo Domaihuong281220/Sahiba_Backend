@@ -5,8 +5,16 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import {
   UpdateCart,
   getAllProduct,
+  getUploadFilePage,
+  // getUploadFilePage,
   getallcategory,
+  handleUploadFile,
+  // handleUploadFile,
 } from "../../controllers/UserController";
+import multer from "multer";
+import path from "path";
+var appRoot = require("app-root-path");
+import { imageFilter } from "../../helpers/imageFilter";
 const prisma = new PrismaClient();
 
 export const PublicRouter = Router();

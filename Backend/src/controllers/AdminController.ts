@@ -111,7 +111,10 @@ export const deleteUserByID = async (req: any, res: Response) => {
 
 // Add new Product
 export const AddProduct = async (req: any, res: Response) => {
-  const { name, description, price, image, categoryId } = req.body;
+  const price = parseInt(req.body.price);
+  // parseInt(price);
+  const { name, description, image, categoryId } = req.body;
+
   console.log(req.body);
   try {
     const result = await prisma.product.create({
